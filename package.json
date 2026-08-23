@@ -1,0 +1,36 @@
+{
+  "name": "@gunship/mcp",
+  "version": "0.1.0",
+  "description": "MCP server that fetches a Gunship finding from its URL",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IssueHunt/gunship-mcp.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "gunship-mcp": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@gunship/api": "*",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@types/node": "^22.19.11",
+    "tsup": "^8.0.0",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.1",
+    "zod": "^4.4.3"
+  }
+}
