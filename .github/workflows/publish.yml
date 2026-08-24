@@ -11,7 +11,7 @@ concurrency:
 
 permissions:
   contents: read
-  # Required to mint the OIDC token that npm provenance is built from.
+  # Required to mint the OIDC token the trusted publisher authenticates with.
   id-token: write
 
 jobs:
@@ -25,7 +25,9 @@ jobs:
           node-version: 22
           registry-url: https://registry.npmjs.org
 
+      # Trusted publishing needs npm 11.5.1+; the Node 22 image ships npm 10.
+      - name: Use an npm that supports trusted publishing
+        run: npm install -g npm@latest
+
       - name: Publish to npm
-        run: npm publish --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish

@@ -18,26 +18,27 @@ That puts a `gunship-mcp` command on your PATH.
 
 ## Configure
 
-You need an API token. In Gunship, open **Settings → API tokens**, create one, and copy it.
-
-Then point your MCP client at the command. For Claude Code, that is `.mcp.json` in your project:
+Point your MCP client at the command. For Claude Code, that is `.mcp.json` in your project:
 
 ```json
 {
   "mcpServers": {
     "gunship": {
-      "command": "gunship-mcp",
-      "env": {
-        "GUNSHIP_TOKEN": "your-token-here"
-      }
+      "command": "gunship-mcp"
     }
   }
 }
 ```
 
-| Variable        | Required | Meaning                              |
-| --------------- | -------- | ------------------------------------ |
-| `GUNSHIP_TOKEN` | yes      | API token from Settings → API tokens |
+Create an API token in Gunship under **Settings → API tokens**, then write it to `~/.gunship/config.yml`:
+
+```yaml
+token: your-token-here
+```
+
+| Key     | Required | Meaning                              |
+| ------- | -------- | ------------------------------------ |
+| `token` | yes      | API token from Settings → API tokens |
 
 ## Use
 

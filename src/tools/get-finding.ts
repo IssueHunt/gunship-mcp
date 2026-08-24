@@ -54,11 +54,9 @@ export function registerGetFindingTool(server: McpServer): void {
     async ({ url }) => {
       try {
         const ref = parseFindingUrl(url)
-        const { token, baseUrl } = readConfig()
         const structuredContent: FindingOutput = await fetchFinding(
           ref,
-          token,
-          baseUrl,
+          readConfig(),
         )
         return { content: [], structuredContent, isError: false }
       } catch (err) {

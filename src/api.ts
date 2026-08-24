@@ -1,17 +1,17 @@
 import { createApiClient, HTTPError } from '@gunship/api/client'
 import type { ShowFindingResBody } from '@gunship/api'
+import type { Config } from './config.js'
 import type { FindingRef } from './finding-url.js'
 
 export type { ShowFindingResBody }
 
 export async function fetchFinding(
   ref: FindingRef,
-  token: string,
-  baseUrlOverride: string | null,
+  config: Config,
 ): Promise<ShowFindingResBody> {
   const client = createApiClient({
-    prefixUrl: baseUrlOverride ?? ref.baseUrl,
-    token,
+    prefixUrl: config.baseUrl ?? ref.baseUrl,
+    token: config.token,
   })
 
   try {
@@ -30,7 +30,7 @@ export async function fetchFinding(
 
     if (status === 401 || status === 403) {
       throw new Error(
-        `Rejected (${status}). Check GUNSHIP_TOKEN is current and belongs to an account with access to this project.`,
+        `Rejected (${status}). Check the token in ${config.sourcePath} is current and belongs to an account with access to this project.`,
       )
     }
 
