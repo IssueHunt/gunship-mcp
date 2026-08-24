@@ -30505,7 +30505,7 @@ function registerGetFindingTool(server2) {
 // package.json
 var package_default = {
   name: "@gunship/mcp",
-  version: "0.2.1",
+  version: "0.2.2",
   description: "MCP server that fetches a Gunship finding from its URL",
   license: "MIT",
   type: "module",
