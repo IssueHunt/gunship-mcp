@@ -30223,6 +30223,14 @@ function createApiClient(options) {
       }).json(),
       selectedIdentifiers: (groupId, assessmentId) => http.get(
         `${assessmentPath(groupId, assessmentId)}/selected-target-spec-identifiers`
+      ).json(),
+      select: (groupId, assessmentId, body) => http.post(
+        `${assessmentPath(groupId, assessmentId)}/selected-target-spec-identifiers`,
+        { json: body }
+      ).json(),
+      deselect: (groupId, assessmentId, body) => http.delete(
+        `${assessmentPath(groupId, assessmentId)}/selected-target-spec-identifiers`,
+        { json: body }
       ).json()
     },
     scenarios: {
@@ -30292,6 +30300,24 @@ function createApiClient(options) {
       ),
       updateMemo: (groupId, assessmentId, locationId, body) => http.put(
         `${assessmentPath(groupId, assessmentId)}/source-code-locations/${locationId}`,
+        { json: body }
+      ).json()
+    },
+    instances: {
+      list: (groupId, options2) => http.get(`api/operator-groups/${groupId}/instances`, {
+        searchParams: options2?.assessmentId != null ? { assessmentId: options2.assessmentId } : void 0
+      }).json(),
+      // WARN: a start waits up to 45 s for the group VPN before the EC2 launch; ky's 10 s default would abort a launch that still completes.
+      start: (groupId, assessmentId, body) => http.post(`${assessmentPath(groupId, assessmentId)}/instances`, {
+        json: body,
+        timeout: 12e4
+      }).json(),
+      terminate: (groupId, runId) => http.post(`api/operator-groups/${groupId}/instances/${runId}/terminate`).json()
+    },
+    notes: {
+      list: (groupId, assessmentId) => http.get(`${assessmentPath(groupId, assessmentId)}/notes`).json(),
+      upsert: (groupId, assessmentId, slug, body) => http.put(
+        `${assessmentPath(groupId, assessmentId)}/notes/${encodeURIComponent(slug)}`,
         { json: body }
       ).json()
     },
@@ -30505,7 +30531,7 @@ function registerGetFindingTool(server2) {
 // package.json
 var package_default = {
   name: "@gunship/mcp",
-  version: "0.2.2",
+  version: "0.3.1",
   description: "MCP server that fetches a Gunship finding from its URL",
   license: "MIT",
   type: "module",
